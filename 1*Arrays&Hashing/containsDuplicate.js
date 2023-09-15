@@ -19,4 +19,16 @@ console.log(containsDuplicate([1,2,3,6,12,2,3]));
 console.log(containsDuplicate([123,2,3,6,12,2,3]))
 console.log(containsDuplicate([22,2,3,6,12,2,3]))
 
-//
+//BruteForce
+
+function subContainsDublicate(nums) {
+   const n = nums.length;
+   for (let i = 0; i < n ; i++){
+      for (let j = i + 1 ; j < n;j++){
+        if (nums[i] === nums[j]){
+         return true; // found dublicate
+        }
+      }
+   }
+   return false; // not found dublicate
+}
