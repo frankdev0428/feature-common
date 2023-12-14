@@ -1,31 +1,34 @@
-
-
-function evalRPN(tokens) {
+function calculate(s) {
     const stack = [];
+    let result = 0;
+    let num = 0;
+    let sign = 1;
 
-    for (const token of tokens) {
-        if (!isNaN(parseInt(token))) {
-            stack.push(parseInt(token));
-        } else {
-            const num2 = stack.pop();
-            const num1 = stack.pop();
-
-            switch (token) {
-                case '+':
-                    stack.push(num1 + num2);
-                    break;
-                case '-':
-                    stack.push(num1 - num2);
-                    break;
-                case '*':
-                    stack.push(num1 * num2);
-                    break;
-                case '/':
-                    stack.push(parseInt(num1 / num2)); // Division truncates towards zero
-                    break;
-            }
+    for (let i = 0; i < s.length; i++) {
+        const char = s.charAt(i);
+        
+        if (!isNaN(parseInt(char))) {
+            num = num * 10 + parseInt(char);
+        } else if (char === '+') {
+            result += sign * num;
+            num = 0;
+            sign = 1;
+        } else if (char === '-') {
+            result += sign * num;
+            num = 0;
+            sign = -1;
+        } else if (char === '(') {
+            stack.push(result);
+            stack.push(sign);
+            result = 0;
+            sign = 1;
+        } else if (char === ')') {
+            result += sign * num;
+            num = 0;
+            result *= stack.pop();
+            result += stack.pop();
         }
     }
 
-    return stack.pop();
+    return result + (sign * num);
 }
